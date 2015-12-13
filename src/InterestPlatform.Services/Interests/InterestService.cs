@@ -28,7 +28,7 @@ namespace InterestPlatform.Services.Interests
         {
             var interest = _context.Interests
                 .Where(i => i.Path == path)
-                .Include(i => i.DiscreteFilters)
+                .Include(i => i.DiscreteFilters).ThenInclude(f => f.Options)
                 .Include(i => i.ContinuousFilters)
                 .Include(i => i.SwitchFilters)
                 .FirstOrDefault();

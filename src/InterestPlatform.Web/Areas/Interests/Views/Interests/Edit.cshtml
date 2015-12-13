@@ -3,8 +3,26 @@
 <div>Edit details for interest @(Model.Name).</div>
 
 <div>
-    Current filters: (@Model.Filters.Count())
-
+    <h1>Filters</h1>
+    @foreach (var filter in Model.Filters)
+    {
+        <div>
+            @if (filter is DiscreteFilter)
+            {
+                var discreteFilter = filter as DiscreteFilter;
+                <span>Discrete filter, @filter.Name, with options: @(string.Join(", ", discreteFilter.Options.Select(fo => fo.Name).ToArray()))</span>
+            }
+            else if (filter is ContinuousFilter)
+            {
+                var continuousFilter = filter as ContinuousFilter;
+                <span>Continuous filter, @filter.Name, in range @continuousFilter.MinimumValue to @continuousFilter.MaximumValue</span>
+            }
+            else if (filter is SwitchFilter) 
+            {
+                <span>Switch filter, @filter.Name</span>
+            }
+        </div>
+    }
 </div>
 
 <a asp-route-area="Interests" asp-controller="Interests" asp-action="AddFilter" asp-route-path="@Model.Path">Add Filter</a>
