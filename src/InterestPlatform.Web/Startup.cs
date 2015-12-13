@@ -14,6 +14,7 @@ using InterestPlatform.Web.Services;
 using InterestPlatform.Data.Initializers;
 using InterestPlatform.Services.Interests;
 using Utility;
+using Microsoft.AspNet.Mvc;
 
 namespace InterestPlatform.Web
 {

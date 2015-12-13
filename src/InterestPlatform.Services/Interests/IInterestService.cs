@@ -12,8 +12,5 @@ namespace InterestPlatform.Services.Interests
         InterestResult Get(int id);
 
         Task<InterestResult> CreateAsync(CreateInterestRequest request);
-
-        Task CreateFilterAsync(CreateFilterRequest request);
-
     }
 }

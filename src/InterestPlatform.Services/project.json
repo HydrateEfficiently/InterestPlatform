@@ -4,6 +4,7 @@
   "dependencies": {
     "AutoMapper": "4.1.1",
     "InterestPlatform.Data": "1.0.0-*",
+    "InterestPlatform.Identity": "1.0.0-*",
     "Microsoft.AspNet.IISPlatformHandler": "1.0.0-rc1-final",
     "Microsoft.AspNet.Server.Kestrel": "1.0.0-rc1-final",
     "Utility": "1.0.0-*"

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using InterestPlatform.Data.Filters;
 using InterestPlatform.Data.Interests;
 using System;
 using System.Collections.Generic;

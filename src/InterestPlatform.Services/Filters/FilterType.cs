@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace InterestPlatform.Services.Interests
+namespace InterestPlatform.Services.Filters
 {
     public enum FilterType
     {

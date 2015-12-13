@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
 using InterestPlatform.Data;
+using InterestPlatform.Data.Filters;
 using InterestPlatform.Data.Interests;
+using InterestPlatform.Identity;
+using InterestPlatform.Services.Filters;
 using Microsoft.Data.Entity;
 using System;
 using System.Collections.Generic;
@@ -12,16 +15,21 @@ namespace InterestPlatform.Services.Interests
 {
     public class InterestService : IInterestService
     {
-
         private readonly ApplicationDbContext _context;
         private readonly ISlugBuilderFactory _slugBuilderFactory;
+        private readonly IIdentityResolver _identityResolver;
+        private readonly IFilterService _filterService;
 
         public InterestService(
             ApplicationDbContext context,
-            ISlugBuilderFactory slugBuilderFactory)
+            ISlugBuilderFactory slugBuilderFactory,
+            IIdentityResolver identityResolver,
+            IFilterService filterService)
         {
             _context = context;
             _slugBuilderFactory = slugBuilderFactory;
+            _identityResolver = identityResolver;
+            _filterService = filterService;
         }
 
         public InterestResult Get(string path)
@@ -55,82 +63,18 @@ namespace InterestPlatform.Services.Interests
                 throw new DuplicateUrlException();
             }
 
+            interest.CreatedById = _identityResolver.GetUserId();
+            interest.CreatedDate = DateTime.UtcNow;
+
             _context.Interests.Add(interest);
             await _context.SaveChangesAsync();
+
+            await Task.WhenAll(request.Filters.Select(f => _filterService.CreateAsync(interest.Id, f)));
 
             return Get(interest.Path);
         }
 
-        public async Task CreateFilterAsync(CreateFilterRequest request)
-        {
-            var interest = GetInterest(request.InterestId);
-            if (interest == null)
-            {
-                throw new Exception("Interest not found");
-            }
-
-            switch (request.FilterType)
-            {
-                case FilterType.Discrete:
-                    await CreateDiscreteFilterAsync(request);
-                    break;
-                case FilterType.Continuous:
-                    await CreateContinuousFilterAsync(request);
-                    break;
-                case FilterType.Switch:
-                    await CreateSwitchFilterAsync(request);
-                    break;
-                default:
-                    throw new Exception("Unhandled Filter Type");
-            }
-
-            await _context.SaveChangesAsync();
-        }
-
         #region Helpers
-
-        private Interest GetInterest(int id)
-        {
-            return _context.Interests.FirstOrDefault(i => i.Id == id);
-        }
-
-        private async Task CreateDiscreteFilterAsync(CreateFilterRequest request)
-        {
-            Mapper.CreateMap<CreateFilterRequest, DiscreteFilter>()
-                .ForMember(
-                    dest => dest.Options,
-                    opts => opts.Ignore());
-            var filter = Mapper.Map<CreateFilterRequest, DiscreteFilter>(request);
-            _context.DiscreteFilters.Add(filter);
-            await _context.SaveChangesAsync();
-
-            foreach (var filterOptionName in request.Options.Split(','))
-            {
-                var filterOption = new DiscreteFilterOption()
-                {
-                    DiscreteFilterId = filter.Id,
-                    Name = filterOptionName
-                };
-                _context.DiscreteFilterOptions.Add(filterOption);
-            }
-            await _context.SaveChangesAsync();
-        }
-
-        private async Task CreateContinuousFilterAsync(CreateFilterRequest request)
-        {
-            Mapper.CreateMap<CreateFilterRequest, ContinuousFilter>();
-            var filter = Mapper.Map<CreateFilterRequest, ContinuousFilter>(request);
-            _context.ContinuousFilters.Add(filter);
-            await _context.SaveChangesAsync();
-        }
-
-        private async Task CreateSwitchFilterAsync(CreateFilterRequest request)
-        {
-            Mapper.CreateMap<CreateFilterRequest, SwitchFilter>();
-            var filter = Mapper.Map<CreateFilterRequest, SwitchFilter>(request);
-            _context.SwitchFilters.Add(filter);
-            await _context.SaveChangesAsync();
-        }
 
         #endregion
     }

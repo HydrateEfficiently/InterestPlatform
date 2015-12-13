@@ -4,12 +4,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace InterestPlatform.Services.Interests
+namespace InterestPlatform.Services.Filters
 {
     public class CreateFilterRequest
     {
-        public int InterestId { get; set; } = 0;
-
         public string Name { get; set; }
 
         public FilterType FilterType { get; set; }

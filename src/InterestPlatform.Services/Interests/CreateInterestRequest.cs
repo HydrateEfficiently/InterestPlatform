@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using InterestPlatform.Data.Interests;
+using InterestPlatform.Services.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,8 @@ namespace InterestPlatform.Services.Interests
     public class CreateInterestRequest : IMapToEntity<Interest>
     {
         public string Name { get; set; }
+
+        public IEnumerable<CreateFilterRequest> Filters { get; set; }
 
         public Interest ToEntity()
         {

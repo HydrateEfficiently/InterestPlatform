@@ -1,4 +1,5 @@
-﻿using InterestPlatform.Services.Interests;
+﻿using InterestPlatform.Services.Filters;
+using InterestPlatform.Services.Interests;
 using Microsoft.AspNet.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,10 +14,14 @@ namespace InterestPlatform.Web.Controllers
     {
 
         private readonly IInterestService _interestService;
+        private readonly IFilterService _filterService;
 
-        public InterestsController(IInterestService interestService)
+        public InterestsController(
+            IInterestService interestService,
+            IFilterService filterService)
         {
             _interestService = interestService;
+            _filterService = filterService;
         }
 
         public IActionResult Index()
@@ -74,8 +79,7 @@ namespace InterestPlatform.Web.Controllers
             if (ModelState.IsValid)
             {
                 var interest = _interestService.Get(path);
-                request.InterestId = interest.Id;
-                await _interestService.CreateFilterAsync(request);
+                await _filterService.CreateAsync(interest.Id, request);
                 return RedirectToAction(nameof(Edit), new { path = path });
             }
             return View(request);
