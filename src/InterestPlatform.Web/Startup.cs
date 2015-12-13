@@ -11,6 +11,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using InterestPlatform.Data;
 using InterestPlatform.Web.Services;
+using InterestPlatform.Data.Initializers;
+using InterestPlatform.Services.Interests;
+using Utility;
 
 namespace InterestPlatform.Web
 {
@@ -54,7 +57,11 @@ namespace InterestPlatform.Web
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
 
+            services.AddTransient<ISlugBuilderFactory, SlugBuilderFactory>();
+
             services.AddTransient<DataInitializer>();
+
+            services.AddTransient<IInterestService, InterestService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -100,6 +107,10 @@ namespace InterestPlatform.Web
 
             app.UseMvc(routes =>
             {
+                routes.MapRoute(
+                    name: "areaRoute",
+                    template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");

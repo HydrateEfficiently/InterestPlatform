@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace InterestPlatform.Data
+namespace InterestPlatform.Data.Initializers
 {
     public class DataInitializer
     {

@@ -1,4 +1,4 @@
-﻿{
+{
   "userSecretsId": "aspnet5-InterestPlatform.Web-5d3500a1-d528-46a4-8192-2e8bd7904a0e",
   "version": "1.0.0-*",
   "compilationOptions": {
@@ -9,6 +9,7 @@
     "EntityFramework.Commands": "7.0.0-rc1-final",
     "EntityFramework.MicrosoftSqlServer": "7.0.0-rc1-final",
     "InterestPlatform.Data": "1.0.0-*",
+    "InterestPlatform.Services": "1.0.0-*",
     "Microsoft.AspNet.Authentication.Cookies": "1.0.0-rc1-final",
     "Microsoft.AspNet.Diagnostics.Entity": "7.0.0-rc1-final",
     "Microsoft.AspNet.Identity.EntityFramework": "3.0.0-rc1-final",
@@ -25,7 +26,8 @@
     "Microsoft.Extensions.Logging": "1.0.0-rc1-final",
     "Microsoft.Extensions.Logging.Console": "1.0.0-rc1-final",
     "Microsoft.Extensions.Logging.Debug": "1.0.0-rc1-final",
-    "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0-rc1-final"
+    "Microsoft.VisualStudio.Web.BrowserLink.Loader": "14.0.0-rc1-final",
+    "Utility": "1.0.0-*"
   },
 
   "commands": {
