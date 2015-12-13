@@ -57,14 +57,14 @@ namespace InterestPlatform.Web.Controllers
             return View(model);
         }
 
-        [Route("edit/{path?}")]
+        [Route("{path?}/edit")]
         [HttpGet]
         public IActionResult Edit(string path)
         {
             return View(_interestService.Get(path));
         }
 
-        [Route("add-filter/{path?}")]
+        [Route("{path?}/add-filter")]
         [HttpGet]
         public IActionResult AddFilter(string path)
         {
@@ -72,7 +72,7 @@ namespace InterestPlatform.Web.Controllers
             return View();
         }
 
-        [Route("add-filter/{path?}")]
+        [Route("{path?}/add-filter")]
         [HttpPost]
         public async Task<IActionResult> AddFilter(string path, CreateFilterRequest request)
         {
@@ -85,7 +85,7 @@ namespace InterestPlatform.Web.Controllers
             return View(request);
         }
 
-        [Route("details/{path}")]
+        [Route("{path}/details")]
         [HttpGet]
         public IActionResult Details(string path)
         {

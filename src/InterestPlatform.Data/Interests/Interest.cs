@@ -21,14 +21,15 @@ namespace InterestPlatform.Data.Interests
         [Required]
         public DateTime CreatedDate { get; set; }
 
-        // Foreign Keys From
+        // Foreign Keys To
 
         [Required]
         public string CreatedById { get; set; }
 
         public virtual ApplicationUser CreatedBy { get; set; }
 
-        // Foreign Keys To
+
+        // Foreign Keys From
 
         public virtual ICollection<DiscreteFilter> DiscreteFilters { get; set; }
 
