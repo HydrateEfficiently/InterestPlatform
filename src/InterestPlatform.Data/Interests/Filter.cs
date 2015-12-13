@@ -15,8 +15,7 @@ namespace InterestPlatform.Data.Interests
         public int Order { get; set; }
 
         public int InterestId { get; set; }
-        
-        [InverseProperty("Filters")]
-        public virtual Interest Interest { get; set; }
+
+        public abstract Interest Interest { get; set; }
     }
 }

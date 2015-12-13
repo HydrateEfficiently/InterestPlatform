@@ -10,6 +10,8 @@ namespace InterestPlatform.Data.Interests
     {
         public int Id { get; set; }
 
+        public string Name { get; set; }
+
         public int DiscreteFilterId { get; set; }
         
         [InverseProperty("Options")]

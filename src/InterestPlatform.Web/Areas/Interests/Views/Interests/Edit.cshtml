@@ -1,0 +1,10 @@
+﻿@model InterestResult
+
+<div>Edit details for interest @(Model.Name).</div>
+
+<div>
+    Current filters: (@Model.Filters.Count())
+
+</div>
+
+<a asp-route-area="Interests" asp-controller="Interests" asp-action="AddFilter" asp-route-path="@Model.Path">Add Filter</a>

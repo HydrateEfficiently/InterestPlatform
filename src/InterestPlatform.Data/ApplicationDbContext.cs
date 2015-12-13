@@ -29,7 +29,6 @@ namespace InterestPlatform.Data
             modelBuilder.Entity<DiscreteFilter>(b => b.HasAnnotation("Relational:TableName", "DiscreteFilters"));
             modelBuilder.Entity<SwitchFilter>(b => b.HasAnnotation("Relational:TableName", "SwitchFilters"));
             modelBuilder.Entity<DiscreteFilterOption>(b => b.HasAnnotation("Relational:TableName", "DiscreteFilterOptions"));
-
         }
     }
 }

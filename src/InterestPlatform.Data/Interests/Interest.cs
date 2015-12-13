@@ -13,6 +13,10 @@ namespace InterestPlatform.Data.Interests
 
         public string Path { get; set; }
 
-        public virtual ICollection<Filter> Filters { get; set; }
+        public virtual ICollection<DiscreteFilter> DiscreteFilters { get; set; }
+
+        public virtual ICollection<ContinuousFilter> ContinuousFilters { get; set; }
+
+        public virtual ICollection<SwitchFilter> SwitchFilters { get; set; }
     }
 }

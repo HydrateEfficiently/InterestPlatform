@@ -47,9 +47,38 @@ namespace InterestPlatform.Web.Controllers
                     ModelState.AddModelError(string.Empty, "Requested URL already exists.");
                 }
 
-                return RedirectToAction(nameof(Details), new { path = result.Path });
+                return RedirectToAction(nameof(Edit), new { path = result.Path });
             }
             return View(model);
+        }
+
+        [Route("edit/{path?}")]
+        [HttpGet]
+        public IActionResult Edit(string path)
+        {
+            return View(_interestService.Get(path));
+        }
+
+        [Route("add-filter/{path?}")]
+        [HttpGet]
+        public IActionResult AddFilter(string path)
+        {
+            ViewData["InterestId"] = _interestService.Get(path).Id;
+            return View();
+        }
+
+        [Route("add-filter/{path?}")]
+        [HttpPost]
+        public async Task<IActionResult> AddFilter(string path, CreateFilterRequest request)
+        {
+            if (ModelState.IsValid)
+            {
+                var interest = _interestService.Get(path);
+                request.InterestId = interest.Id;
+                await _interestService.CreateFilterAsync(request);
+                return RedirectToAction(nameof(Edit), new { path = path });
+            }
+            return View(request);
         }
 
         [Route("details/{path}")]

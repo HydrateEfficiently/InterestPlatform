@@ -9,7 +9,11 @@ namespace InterestPlatform.Services.Interests
     {
         InterestResult Get(string path);
 
+        InterestResult Get(int id);
+
         Task<InterestResult> CreateAsync(CreateInterestRequest request);
+
+        Task CreateFilterAsync(CreateFilterRequest request);
 
     }
 }
