@@ -15,6 +15,8 @@ using InterestPlatform.Data.Initializers;
 using InterestPlatform.Services.Interests;
 using Utility;
 using Microsoft.AspNet.Mvc;
+using InterestPlatform.Services.Filters;
+using InterestPlatform.Identity;
 
 namespace InterestPlatform.Web
 {
@@ -62,7 +64,9 @@ namespace InterestPlatform.Web
 
             services.AddTransient<DataInitializer>();
 
+            services.AddTransient<IIdentityResolver, DefaultIdentityResolver>();
             services.AddTransient<IInterestService, InterestService>();
+            services.AddTransient<IFilterService, FilterService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

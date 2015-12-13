@@ -2,6 +2,7 @@
 using InterestPlatform.Data.Interests;
 using InterestPlatform.Services.Filters;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ namespace InterestPlatform.Services.Interests
     {
         public string Name { get; set; }
 
-        public IEnumerable<CreateFilterRequest> Filters { get; set; }
+        public IEnumerable<CreateFilterRequest> Filters { get; set; } = Enumerable.Empty<CreateFilterRequest>();
 
         public Interest ToEntity()
         {

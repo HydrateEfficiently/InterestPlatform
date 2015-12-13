@@ -4,22 +4,27 @@
 
 <div>
     <h1>Filters</h1>
-    @foreach (var filter in Model.Filters)
+    @foreach (var filterTypeAndId in Model.OrderedFilterTypesAndIds)
     {
         <div>
-            @if (filter is DiscreteFilter)
+            @switch (filterTypeAndId.Item1)
             {
-                var discreteFilter = filter as DiscreteFilter;
-                <span>Discrete filter, @filter.Name, with options: @(string.Join(", ", discreteFilter.Options.Select(fo => fo.Name).ToArray()))</span>
-            }
-            else if (filter is ContinuousFilter)
-            {
-                var continuousFilter = filter as ContinuousFilter;
-                <span>Continuous filter, @filter.Name, in range @continuousFilter.MinimumValue to @continuousFilter.MaximumValue</span>
-            }
-            else if (filter is SwitchFilter) 
-            {
-                <span>Switch filter, @filter.Name</span>
+                case FilterType.Discrete:
+                    var discreteFilter = Model.DiscreteFiltersById[filterTypeAndId.Item2];
+                    <span>Discrete filter, @discreteFilter.Name, with options: </span>
+                    <span>@(string.Join(", ", discreteFilter.Options.Select(fo => fo.Name).ToArray()))</span>
+                    break;
+                case FilterType.Continuous:
+                    var continuousFilter = Model.ContinuousFiltersById[filterTypeAndId.Item2];
+                    <span>Continuous filter, @continuousFilter.Name, in range </span>
+                    <span>@continuousFilter.MinimumValue to @continuousFilter.MaximumValue</span>
+                    break;
+                case FilterType.Switch:
+                    var switchFilter = Model.SwitchFiltersById[filterTypeAndId.Item2];
+                    <span>Switch filter, @switchFilter.Name</span>
+                    break;
+                default:
+                    throw new Exception("Unrecognised FilterType");
             }
         </div>
     }

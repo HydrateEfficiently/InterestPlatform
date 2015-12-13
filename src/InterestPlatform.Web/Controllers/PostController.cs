@@ -20,6 +20,7 @@ namespace InterestPlatform.Web.Controllers
         [HttpGet]
         public IActionResult Submit(string path)
         {
+            ViewData["path"] = path;
             return View();
         }
     }

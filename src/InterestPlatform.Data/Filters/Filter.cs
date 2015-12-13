@@ -24,11 +24,5 @@ namespace InterestPlatform.Data.Filters
         public int InterestId { get; set; }
 
         public abstract Interest Interest { get; set; }
-
-        [Required]
-        public int CreatedById { get; set; }
-
-        [Required]
-        public ApplicationUser CreatedBy { get; set; }
     }
 }
