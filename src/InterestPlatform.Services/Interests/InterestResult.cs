@@ -18,14 +18,15 @@ namespace InterestPlatform.Services.Interests
             public FilterType FilterType;
         }
 
-
         public int Id { get; set; }
 
         public string Name { get; set; }
 
         public string Path { get; set; }
 
-        public IEnumerable<Tuple<FilterType, int>> OrderedFilterTypesAndIds { get; set; }
+        public IList<Tuple<FilterType, int>> OrderedFilterTypesAndIds { get; set; }
+
+        public IList<Filter> OrderedFilters { get; set; }
 
         public Dictionary<int, DiscreteFilter> DiscreteFiltersById { get; set; }
 
@@ -42,7 +43,14 @@ namespace InterestPlatform.Services.Interests
                 .Concat(SelectOrderingFields(interest.ContinuousFilters, FilterType.Continuous))
                 .Concat(SelectOrderingFields(interest.DiscreteFilters, FilterType.Discrete))
                 .OrderBy(f => f.Order)
-                .Select(f => new Tuple<FilterType, int>(f.FilterType, f.Id));
+                .Select(f => new Tuple<FilterType, int>(f.FilterType, f.Id))
+                .ToList();
+
+            OrderedFilters = interest.DiscreteFilters.Cast<Filter>()
+                .Concat(interest.ContinuousFilters.Cast<Filter>())
+                .Concat(interest.SwitchFilters.Cast<Filter>())
+                .OrderBy(f => f.Order)
+                .ToList();
 
             DiscreteFiltersById = interest.DiscreteFilters.ToDictionary(f => f.Id);
             ContinuousFiltersById = interest.ContinuousFilters.ToDictionary(f => f.Id);

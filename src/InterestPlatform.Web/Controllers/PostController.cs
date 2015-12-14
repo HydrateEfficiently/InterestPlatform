@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNet.Mvc;
+﻿using InterestPlatform.Data.Posts;
+using InterestPlatform.Services.Posts;
+using Microsoft.AspNet.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace InterestPlatform.Web.Controllers
 {
-    [Route("{path?}/post")]
+    [Route("f/{path?}/post")]
     public class PostController : Controller
     {
 
@@ -22,6 +24,17 @@ namespace InterestPlatform.Web.Controllers
         {
             ViewData["path"] = path;
             return View();
+        }
+
+        [Route("submit")]
+        [HttpPost]
+        public IActionResult Submit(CreatePostRequest model)
+        {
+            if (ModelState.IsValid)
+            {
+
+            }
+            return View(model);
         }
     }
 }

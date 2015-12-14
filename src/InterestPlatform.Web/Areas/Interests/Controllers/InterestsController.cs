@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace InterestPlatform.Web.Controllers
 {
-    [Route("interests")]
+    [Route("f")]
     [Area("Interests")]
     public class InterestsController : Controller
     {
@@ -24,19 +24,14 @@ namespace InterestPlatform.Web.Controllers
             _filterService = filterService;
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        [Route("create")]
+        [Route("submit")]
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
 
-        [Route("create")]
+        [Route("submit")]
         [HttpPost]
         public async Task<IActionResult> Create(CreateInterestRequest model)
         {
@@ -85,7 +80,7 @@ namespace InterestPlatform.Web.Controllers
             return View(request);
         }
 
-        [Route("{path}/details")]
+        [Route("{path}")]
         [HttpGet]
         public IActionResult Details(string path)
         {

@@ -1,0 +1,76 @@
+﻿@model CreatePostRequest
+
+@inject IInterestService interestService;
+@{
+    var interest = interestService.Get((string)ViewData["path"]);
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-controller="Post" asp-action="Submit" method="post" class="form-horizontal clearfix" role="form">
+            <div asp-validation-summary="ValidationSummary.All" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Name" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Description" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
+
+            @for (var i = 0; i < interest.OrderedFilters.Count; i++)
+            {
+                var filter = interest.OrderedFilters[i];
+                if (filter is DiscreteFilter)
+                {
+                    var selectListItems = ((DiscreteFilter)filter).Options.Select(o => new SelectListItem()
+                    {
+                        Text = o.Name,
+                        Value = o.Id.ToString(),
+                        Selected = Model?.FitlerFields?.Where(f => f.OptionId == o.Id) != null
+                    });
+                    <div class="form-group">
+                        <label asp-for="FitlerFields[i].OptionId" class="col-md-2 control-label">@filter.Name</label>
+                        <div class="col-md-10">
+                            <select asp-for="FitlerFields[i].OptionId" class="form-control"
+                                    asp-items="selectListItems"></select>
+                        </div>
+                    </div>
+                    <span></span>
+                }
+                else if (filter is ContinuousFilter)
+                {
+                    <div class="form-group">
+                        <label class="col-md-2 control-label">@filter.Name</label>
+                        <div class="col-md-10">
+                            <input asp-for="FitlerFields[i].MinimumValue" class="form-control" />
+                            <span> to </span>
+                            <input asp-for="FitlerFields[i].MaximumValue" class="form-control" />
+                        </div>
+                    </div>
+                }
+                else if (filter is SwitchFilter)
+                {
+                    <div class="form-group">
+                        <label asp-for="FitlerFields[i].Enabled" class="col-md-2 control-label">@filter.Name</label>
+                        <div class="col-md-10">
+                            <input asp-for="FitlerFields[i].Enabled" />
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    throw new Exception("Unrecognised FilterType");
+                }
+            }
+        </form>
+    </div>
+</div>
