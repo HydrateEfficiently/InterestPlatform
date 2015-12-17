@@ -9,10 +9,8 @@ using System.Threading.Tasks;
 namespace InterestPlatform.Web.Controllers
 {
     [Route("f")]
-    [Area("Interests")]
     public class InterestsController : Controller
     {
-
         private readonly IInterestService _interestService;
         private readonly IFilterService _filterService;
 
@@ -57,27 +55,6 @@ namespace InterestPlatform.Web.Controllers
         public IActionResult Edit(string path)
         {
             return View(_interestService.Get(path));
-        }
-
-        [Route("{path?}/add-filter")]
-        [HttpGet]
-        public IActionResult AddFilter(string path)
-        {
-            ViewData["InterestId"] = _interestService.Get(path).Id;
-            return View();
-        }
-
-        [Route("{path?}/add-filter")]
-        [HttpPost]
-        public async Task<IActionResult> AddFilter(string path, CreateFilterRequest request)
-        {
-            if (ModelState.IsValid)
-            {
-                var interest = _interestService.Get(path);
-                await _filterService.CreateAsync(interest.Id, request);
-                return RedirectToAction(nameof(Edit), new { path = path });
-            }
-            return View(request);
         }
 
         [Route("{path}")]

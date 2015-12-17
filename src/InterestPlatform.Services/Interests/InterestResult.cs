@@ -24,8 +24,6 @@ namespace InterestPlatform.Services.Interests
 
         public string Path { get; set; }
 
-        public IList<Tuple<FilterType, int>> OrderedFilterTypesAndIds { get; set; }
-
         public IList<Filter> OrderedFilters { get; set; }
 
         public Dictionary<int, DiscreteFilter> DiscreteFiltersById { get; set; }
@@ -38,13 +36,6 @@ namespace InterestPlatform.Services.Interests
         {
             Mapper.CreateMap<Interest, InterestResult>();
             Mapper.Map(interest, this);
-
-            OrderedFilterTypesAndIds = SelectOrderingFields(interest.DiscreteFilters, FilterType.Discrete)
-                .Concat(SelectOrderingFields(interest.ContinuousFilters, FilterType.Continuous))
-                .Concat(SelectOrderingFields(interest.DiscreteFilters, FilterType.Discrete))
-                .OrderBy(f => f.Order)
-                .Select(f => new Tuple<FilterType, int>(f.FilterType, f.Id))
-                .ToList();
 
             OrderedFilters = interest.DiscreteFilters.Cast<Filter>()
                 .Concat(interest.ContinuousFilters.Cast<Filter>())

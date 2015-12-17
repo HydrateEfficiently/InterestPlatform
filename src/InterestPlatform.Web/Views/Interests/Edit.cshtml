@@ -1,0 +1,60 @@
+﻿@model InterestResult
+
+<h1>@Model.Name</h1>
+
+<div>
+    <h3>Filters</h3>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Order</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Details</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (var i = 0; i < Model.OrderedFilters.Count; i++)
+            {
+                var filter = Model.OrderedFilters[i];
+
+                string type;
+                string details;
+                if (filter is DiscreteFilter)
+                {
+                    var discreteFilter = (DiscreteFilter)filter;
+                    type = "Discrete";
+                    details = string.Join(", ", discreteFilter.Options.Select(o => o.Name));
+                }
+                else if (filter is ContinuousFilter)
+                {
+                    var continuousFilter = (ContinuousFilter)filter;
+                    type = "Continuous";
+                    details = $"{continuousFilter.MinimumValue} to {continuousFilter.MaximumValue} units";
+                }
+                else if (filter is SwitchFilter)
+                {
+                    type = "Switch";
+                    details = "n/a";
+                }
+                else
+                {
+                    throw new Exception("Unrecognised filter");
+                }
+                <tr>
+                    <td>@(i + 1)</td>
+                    <td>@filter.Name</td>
+                    <td>@type</td>
+                    <td>@details</td>
+                    <td><a asp-controller="Filters" asp-action="Edit" asp-route-path="@filter.Id">Edit</a></td>
+                    <td><a asp-controller="Filters" asp-action="Delete" asp-route-path="@filter.Id">Delete</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <a asp-controller="Filters" asp-action="Add" asp-route-path="@Model.Path">Add Filter</a>
+</div>
+
+
